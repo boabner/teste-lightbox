@@ -1,10 +1,48 @@
 import React, { useState } from "react";
 import {Helmet} from 'react-helmet';
 import style from './App.module.scss';
+import { obterAutorizacao } from "./services/app-services.tsx";
 
 export default function App() {
 
     const [code, setCode] = useState('');
+    const [email, setEmail] = useState('');
+    const [token, setToken] = useState('');
+
+    async function obterCodigoAutorizacao(event) {
+
+        const response = await obterAutorizacao(
+            {
+                'email': email,
+                'token': token,
+                'currency':'BRL',
+                'itemId1':'0001',
+                'itemDescription1':'Notebook Prata',
+                'itemAmount1':'24300.00',
+                'itemQuantity1':'1',
+                'itemWeight1':'1000',
+                'reference':'REF1234',
+                'senderName': 'Krasnodar',
+                'senderEmail': email,
+                'shippingType':'1',
+                'shippingAddressStreet':'Av. Brig. Faria Lima',
+                'shippingAddressNumber':'1384',
+                'shippingAddressComplement':'5o andar',
+                'shippingAddressDistrict':'Jardim Paulistano',
+                'shippingAddressPostalCode':'01452002',
+                'shippingAddressCity':'Sao Paulo',
+                'shippingAddressState':'SP',
+                'shippingAddressCountry':'BRA',
+                'redirectURL': 'http://www.seusite.com.br'
+            },
+            email,
+            token
+        ).then((sucesso) => {
+           console.log(sucesso);
+        }).catch((erro) => {
+           
+        });
+    }
 
     function abrirModal(event) {
         event.preventDefault();
@@ -41,7 +79,37 @@ export default function App() {
                         Krasnodar Team
                     </label>
                 </p>
-                
+
+                <input
+                    className={style.app__input}
+                    type="text"
+                    value={email}
+                    required
+                    maxLength={40}
+                    placeholder="E-mail"
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+
+                <input
+                    className={style.app__input}
+                    type="text"
+                    value={token}
+                    required
+                    maxLength={40}
+                    placeholder="Token"
+                    onChange={(e) => setToken(e.target.value)}
+                />
+
+                <button 
+                    type="button"
+                    onClick={ e => obterCodigoAutorizacao(e)}
+                    className={style.app__button}
+                >
+                    Obter autorização
+                </button>
+
+                <hr/>
+
                 <input
                     className={style.app__input}
                     type="text"
@@ -59,6 +127,7 @@ export default function App() {
                 >
                     Iniciar Lightbox
                 </button>
+                
             </div>
         </section>
     );

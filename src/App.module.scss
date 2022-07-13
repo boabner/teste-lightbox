@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: center;
     &__content {
-        margin-top: 20em;
+        margin-top: 12.5em;
         display: flex;
         flex-direction: column;
     }
@@ -16,6 +16,7 @@
         border: 1px solid grey;
         border-radius: 4px;
         padding: 7px;
+        margin-top: 5px;
     }
     &__button {
         margin-top: 10px;
